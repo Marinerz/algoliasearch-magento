@@ -529,6 +529,11 @@ class Algolia_Algoliasearch_Helper_Data extends Mage_Core_Helper_Abstract
                 'entity_pk_value=entity_id', '{{table}}.store_id='.$storeId, 'left');
         }
 
+        // DD mod to include product code
+        if($this->product_helper->isAttributeEnabled($additionalAttributes, 'md_product_code')){
+            $collection->getSelect()->columns(" CONCAT(9,LPAD(e.entity_id,6,'0')) as md_product_code");
+        }
+
         $this->logger->start('LOADING '.$this->logger->getStoreName($storeId).' collection page '.$page.', pageSize '.$pageSize);
 
         $collection->load();
