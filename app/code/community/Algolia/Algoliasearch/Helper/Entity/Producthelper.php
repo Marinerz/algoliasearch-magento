@@ -65,6 +65,7 @@ class Algolia_Algoliasearch_Helper_Entity_Producthelper extends Algolia_Algolias
                 'rating_summary',
                 'media_gallery',
                 'in_stock',
+                'md_product_code', // DD mod to include product code
             ), $allAttributes);
 
             $excludedAttributes = $this->getExcludedAttributes();
@@ -863,6 +864,11 @@ class Algolia_Algoliasearch_Helper_Entity_Producthelper extends Algolia_Algolias
                 'stock_qty')
         ) {
             $customData['stock_qty'] = (int) $product->getStockQty();
+        }
+
+        // DD mod to include md_product_code
+        if (false === isset($defaultData['md_product_code']) && $this->isAttributeEnabled($additionalAttributes, 'md_product_code')) {
+            $customData['md_product_code'] = "#".$product->getMdProductCode();
         }
 
         if (Mage::helper('core')->isModuleEnabled('Mage_Review')) {
